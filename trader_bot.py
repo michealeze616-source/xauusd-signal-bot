@@ -4,9 +4,9 @@ import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import requests
 
-# Your Telegram Bot credentials from environment variables
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "8861026595:AAH-UUQr2jm-VZh1PlOxOn86s4kbRI-_xxc")
-CHAT_ID = os.environ.get("CHAT_ID", "YOUR_CHAT_ID")
+# Your exact Telegram credentials
+BOT_TOKEN = "8989772990:AAGk_LwE2Q-ddvivtMhfuNVuF793aEgERbM"
+CHAT_ID = "6960001622"
 
 # ---------- 1. Render Keep-Alive Server ----------
 class HealthHandler(BaseHTTPRequestHandler):
@@ -14,7 +14,7 @@ class HealthHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
         self.end_headers()
-        self.wfile.write(b"XAUUSD 5-TP Cloud Bot is live!")
+        self.wfile.write(b"XAUUSD 5-TP Cloud Bot is live and running!")
 
     def log_message(self, format, *args):
         return
