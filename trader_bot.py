@@ -38,12 +38,11 @@ def send_telegram_alert(message):
 # ---------- 3. Live Price Fetcher ----------
 def get_live_gold_price():
     try:
-        # Using PAXG (gold-backed token spot price) to track XAUUSD instantly
-        url = "https://api.coinbase.com/v2/prices/PAXG-USD/spot"
+        url = "https://api.goldprice.dev/v1/prices?symbol=XAU-USD-SPOT"
         response = requests.get(url, timeout=5)
-        if response.status_code == 200:
+        if response.ok:
             data = response.json()
-            return float(data["data"]["amount"])
+            return float(data["symbols"][0]["price"])
     except Exception as e:
         print(f"Error fetching price: {e}")
     return None
