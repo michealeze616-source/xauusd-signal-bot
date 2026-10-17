@@ -8,6 +8,9 @@ import requests
 BOT_TOKEN = "8989772990:AAGk_LwE2Q-ddvivtMhfuNVuF793aEgERbM"
 CHAT_ID = "6960001622"
 
+# TwelveData API configuration
+TWELVEDATA_API_KEY = "YOUR_TWELVEDATA_API_KEY"
+
 # ---------- 1. Render Keep-Alive Server ----------
 class HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -35,14 +38,14 @@ def send_telegram_alert(message):
     except Exception as e:
         print(f"Telegram error: {e}")
 
-# ---------- 3. Live Price Fetcher ----------
+# ---------- 3. Live Price Fetcher (TwelveData) ----------
 def get_live_gold_price():
     try:
-        url = "https://api.goldprice.dev/v1/prices?symbol=XAU-USD-SPOT"
+        url = f"https://api.twelvedata.com/price?symbol=XAU/USD&apikey={TWELVEDATA_API_KEY}"
         response = requests.get(url, timeout=5)
         if response.ok:
             data = response.json()
-            return float(data["symbols"][0]["price"])
+            return float(data["price"])
     except Exception as e:
         print(f"Error fetching price: {e}")
     return None
@@ -99,8 +102,8 @@ def market_monitor_loop():
                 send_telegram_alert(alert_msg)
                 last_price = current_price  # Reset baseline after firing alert
                 
-        # Check every 60 seconds
-        time.sleep(60)
+        # Check every 120 seconds to stay within API rate limits
+        time.sleep(120)
 
 if __name__ == "__main__":
     market_monitor_loop()
